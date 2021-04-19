@@ -1,0 +1,1 @@
+enum StatusTypes { live, saved }
