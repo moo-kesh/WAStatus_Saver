@@ -57,12 +57,28 @@ class _MainScreenState extends State<HomeScreen> {
             length: 2,
             child: Scaffold(
                 appBar: AppBar(
-                  title: Text(
-                    'WAStatus Saver',
-                    style: GoogleFonts.lato(
-                        color: Colors.greenAccent,
-                        letterSpacing: 2,
-                        fontWeight: FontWeight.bold),
+                  title: Row(
+                    children: [
+                      Hero(
+                        tag: 'appIcon',
+                        child: ImageIcon(
+                          Image.asset('assets/graphics/appbar_icon.png').image,
+                          color: Colors.greenAccent,
+                          size: 35,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        'WAStatus Saver',
+                        style: GoogleFonts.lato(
+                          color: Colors.greenAccent,
+                          letterSpacing: 2,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                   actions: [
                     GestureDetector(

@@ -4,6 +4,7 @@ import 'package:whatsapp_status/controller/file_manager.dart';
 import 'package:whatsapp_status/screen/home_screen.dart';
 import 'package:whatsapp_status/screen/live_statuses.dart';
 import 'package:whatsapp_status/screen/saved_statuses.dart';
+import 'package:whatsapp_status/screen/welcome_screen.dart';
 import 'package:whatsapp_status/styles/themes.dart';
 
 void main() {
@@ -24,7 +25,8 @@ class _WAStatusAppState extends State<WAStatusApp> {
       theme: Themes.lightTheme,
       initialRoute: '/',
       routes: {
-        '/': (context) => HomeScreen(),
+        '/': (context) => WelcomeScreen(),
+        'home_screen': (context) => HomeScreen(),
         'live_stories': (context) => LiveStatusScreen(),
         'saved_stories': (context) => SavedStatusScreen()
       },

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:like_button/like_button.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:whatsapp_status/controller/file_manager.dart';
 import 'package:whatsapp_status/models/status_model.dart';
 import 'package:whatsapp_status/screen/media_player.dart';
-import 'package:whatsapp_status/styles/color_styles.dart';
 import 'package:whatsapp_status/utils/shared_pref_util.dart';
 import 'package:whatsapp_status/utils/utils.dart';
 
@@ -24,6 +24,31 @@ class CustomGridViewTile extends StatefulWidget {
 }
 
 class _CustomGridViewTileState extends State<CustomGridViewTile> {
+  bool isLiked = false;
+
+  Future<bool> onLikeButtonTapped(bool isLiked) async {
+    setState(() {
+      if (widget.data.isFavorite) {
+        SharedPrefUtil.removeSharedPref(widget.data.fileName);
+        widget.data.isFavorite = false;
+        Provider.of<FilesManager>(context, listen: false)
+            .removeFromFavoritesList(widget.data);
+        Fluttertoast.showToast(
+            msg: 'Removed from favorites!',
+            backgroundColor: Colors.pink.withOpacity(0.7));
+      } else {
+        SharedPrefUtil.setSharedPrefs(widget.data.path, widget.data.fileName);
+        widget.data.isFavorite = true;
+        Provider.of<FilesManager>(context, listen: false)
+            .addToFavoritesList(widget.data);
+        Fluttertoast.showToast(
+            msg: 'Added to favorites!',
+            backgroundColor: Colors.pink.withOpacity(0.7));
+      }
+    });
+    return !isLiked;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,48 +73,42 @@ class _CustomGridViewTileState extends State<CustomGridViewTile> {
                       fit: BoxFit.fill,
                     ),
                     if (widget.isShowFavoriteButton)
-                      GestureDetector(
-                          child: Container(
-                            padding: EdgeInsets.all(7),
-                            child: CircleAvatar(
-                              backgroundColor:
-                                  Colors.greenAccent.withOpacity(0.5),
-                              child: Icon(
-                                Icons.favorite_rounded,
-                                color: widget.data.isFavorite
-                                    ? favoriteColor
-                                    : unFavoriteColor,
-                                size: 26,
+                      Container(
+                        padding: EdgeInsets.all(7),
+                        child: CircleAvatar(
+                            backgroundColor:
+                                Colors.greenAccent.withOpacity(0.4),
+                            child: LikeButton(
+                              isLiked: widget.data.isFavorite,
+                              padding: EdgeInsets.only(left: 2.5, top: 2),
+                              circleColor: CircleColor(
+                                  start: Color(0xffe276d0),
+                                  end: Color(0xffef0ebf)),
+                              bubblesColor: BubblesColor(
+                                dotPrimaryColor: Color(0xffe913ce),
+                                dotSecondaryColor: Color(0xffd9ac33),
                               ),
+                              likeBuilder: (bool isLiked) {
+                                return Icon(
+                                  Icons.favorite_rounded,
+                                  color: isLiked
+                                      ? Colors.pinkAccent
+                                      : Colors.white70,
+                                  size: 29,
+                                );
+                              },
+                              onTap: onLikeButtonTapped,
+                            )
+
+                            /*Icon(
+                            Icons.favorite_rounded,
+                            color: widget.data.isFavorite
+                                ? favoriteColor
+                                : unFavoriteColor,
+                            size: 26,
+                          ),*/
                             ),
-                          ),
-                          onTap: () {
-                            setState(() {
-                              if (widget.data.isFavorite) {
-                                SharedPrefUtil.removeSharedPref(
-                                    widget.data.fileName);
-                                widget.data.isFavorite = false;
-                                Provider.of<FilesManager>(context,
-                                        listen: false)
-                                    .removeFromFavoritesList(widget.data);
-                                Fluttertoast.showToast(
-                                    msg: 'Removed from favorites!',
-                                    backgroundColor:
-                                        Colors.pink.withOpacity(0.7));
-                              } else {
-                                SharedPrefUtil.setSharedPrefs(
-                                    widget.data.path, widget.data.fileName);
-                                widget.data.isFavorite = true;
-                                Provider.of<FilesManager>(context,
-                                        listen: false)
-                                    .addToFavoritesList(widget.data);
-                                Fluttertoast.showToast(
-                                    msg: 'Added to favorites!',
-                                    backgroundColor:
-                                        Colors.pink.withOpacity(0.7));
-                              }
-                            });
-                          }),
+                      ),
                   ]),
                 ),
                 onTap: () {
@@ -126,18 +145,18 @@ class _CustomGridViewTileState extends State<CustomGridViewTile> {
               children: [
                 GestureDetector(
                   child: Icon(Icons.share_rounded,
-                      color: Colors.greenAccent.shade400, size: 32),
+                      color: Colors.greenAccent.shade700, size: 32),
                   onTap: () {
                     Share.shareFiles([widget.data.path]);
                   },
                 ),
                 widget.data.isSaved
                     ? GestureDetector(
-                        child: widget.statusType == StatusTypes.live
+                  child: widget.statusType == StatusTypes.live
                             ? Icon(Icons.download_done_rounded,
-                                color: Colors.greenAccent.shade400, size: 32)
+                                color: Colors.greenAccent.shade700, size: 32)
                             : Icon(Icons.delete_forever_rounded,
-                                color: Colors.greenAccent.shade400, size: 32),
+                                color: Colors.greenAccent.shade700, size: 32),
                         onTap: () {
                           setState(() {
                             Provider.of<FilesManager>(context, listen: false)
@@ -146,8 +165,8 @@ class _CustomGridViewTileState extends State<CustomGridViewTile> {
                         },
                       )
                     : GestureDetector(
-                        child: Icon(Icons.download_rounded,
-                            color: Colors.greenAccent.shade400, size: 32),
+                  child: Icon(Icons.download_rounded,
+                            color: Colors.greenAccent.shade700, size: 32),
                         onTap: () {
                           setState(() {
                             if (!widget.data.isSaved) {

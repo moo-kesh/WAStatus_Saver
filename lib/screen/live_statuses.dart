@@ -138,7 +138,7 @@ class _LiveStatusScreenState extends State<LiveStatusScreen>
                   child: JumpingDotsProgressIndicator(),
                 );
               } else if (fileManager.liveStatusesMap[category].isEmpty) {
-                return NoStatusesWidget(text: 'Empty !');
+                return NoStatusesWidget();
               } else
                 return Expanded(
                   child: NotificationListener<ScrollNotification>(
@@ -156,9 +156,7 @@ class _LiveStatusScreenState extends State<LiveStatusScreen>
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           if (fileManager.liveStatusesMap[category].isEmpty) {
-                            return NoStatusesWidget(
-                              text: 'Empty',
-                            );
+                            return NoStatusesWidget();
                           } else
                             return CustomGridViewTile(
                               data: fileManager.liveStatusesMap[category]

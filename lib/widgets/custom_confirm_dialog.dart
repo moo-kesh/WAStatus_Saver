@@ -30,10 +30,14 @@ class CustomConfirmDialogBox extends StatelessWidget {
               Text(
                 'Storage permissions are necessary to access WhatsApp statuses, Please grant permissions or exit application',
                 style: TextStyle(
-                  fontSize: 15,
+                  fontSize: 17,
                 ),
                 textAlign: TextAlign.center,
               ),
+              SizedBox(
+                height: 20,
+              ),
+              Divider(),
               TextButton(
                   onPressed: () {
                     Permission.storage.request().then((value) {
@@ -46,15 +50,16 @@ class CustomConfirmDialogBox extends StatelessWidget {
                   },
                   child: Text(
                     'Ask again',
-                    style: TextStyle(color: Colors.green, fontSize: 18),
+                    style: TextStyle(color: Colors.green, fontSize: 20),
                   )),
+              Divider(),
               TextButton(
                   onPressed: () {
                     SystemNavigator.pop();
                   },
                   child: Text(
                     'Exit',
-                    style: TextStyle(color: Colors.redAccent, fontSize: 15),
+                    style: TextStyle(color: Colors.redAccent, fontSize: 17),
                   ))
             ],
           ),
