@@ -78,7 +78,7 @@ class _FavoriteStatusesState extends State<FavoriteStatuses>
               print('length: ' +
                   fileManager.favoritesStatusesList.length.toString());
               if (fileManager.favoritesStatusesList.isEmpty) {
-                return NoStatusesWidget(text: 'Empty !');
+                return NoStatusesWidget();
               } else
                 return Expanded(
                   child: NotificationListener<ScrollNotification>(

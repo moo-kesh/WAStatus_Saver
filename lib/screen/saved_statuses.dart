@@ -136,9 +136,7 @@ class _SavedStatusScreenState extends State<SavedStatusScreen>
           Consumer<FilesManager>(
             builder: (context, fileManager, child) {
               if (fileManager.savedStatusesMap[category].length == 0) {
-                return NoStatusesWidget(
-                  text: 'Empty !',
-                );
+                return NoStatusesWidget();
               } else
                 return Expanded(
                   child: NotificationListener<ScrollNotification>(
