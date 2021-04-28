@@ -1,4 +1,4 @@
-# WAStatus Saver
+## WAStatus Saver
 
 A WhatsApp Status/Story saver app.
 
@@ -20,5 +20,12 @@ More features will be added soon
 *Please note that WhatsApp statuses will only appear in WAStatus Saver app after you watch them at least once in WhatsApp application.
 
 
-# Screenshots
+# Screenshots![tia4247006574783175641](https://user-images.githubusercontent.com/24774694/116409498-87420400-a851-11eb-9592-6de945d68332.jpg)
+![tia5410237348827709052](https://user-images.githubusercontent.com/24774694/116409512-8a3cf480-a851-11eb-8c02-ad12930feb43.jpg)
+![tia7833611679259717941](https://user-images.githubusercontent.com/24774694/116409521-8b6e2180-a851-11eb-9a56-a5f871ec6600.jpg)
+![Untitled-1](https://user-images.githubusercontent.com/24774694/116409527-8d37e500-a851-11eb-893f-aaf40861f11b.jpg)
+![tia1632097298559898027](https://user-images.githubusercontent.com/24774694/116409535-8e691200-a851-11eb-883d-bd7833cb6d13.jpg)
+![tia2246262540504058045](https://user-images.githubusercontent.com/24774694/116409541-90cb6c00-a851-11eb-90bf-bc2b8802a3d8.jpg)
+
+
 
