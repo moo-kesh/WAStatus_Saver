@@ -25,27 +25,28 @@ More features will be added soon
 <table>
   <tr>
     <td>
-      <img alt="Welcome Screen" src="https://user-images.githubusercontent.com/24774694/116413170-0127bc80-a855-11eb-985e-8aece6eff7a4.jpg" width="150" height="300"/>
+      <img alt="Welcome Screen" src="https://user-images.githubusercontent.com/24774694/116413170-0127bc80-a855-11eb-985e-8aece6eff7a4.jpg" width="175" height="300"/>
     </td> 
     <td>
-      <img src="https://user-images.githubusercontent.com/24774694/116413184-038a1680-a855-11eb-9cd0-37bd98feb245.jpg" alt="Live Statuses" width="150" height="300"/>
+      <img src="https://user-images.githubusercontent.com/24774694/116413184-038a1680-a855-11eb-9cd0-37bd98feb245.jpg" alt="Live Statuses" width="175" height="300"/>
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/24774694/116413165-fe2ccc00-a854-11eb-8205-461afd6fcfdd.jpg" alt="Mark as favorite" width="150" height="300"/>
+      <img src="https://user-images.githubusercontent.com/24774694/116413165-fe2ccc00-a854-11eb-8205-461afd6fcfdd.jpg" alt="Mark as favorite" width="175" height="300"/>
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/24774694/116413172-01c05300-a855-11eb-8912-eae29df2a93d.jpg" alt="Favorite Statuses" width="150" height="300"/>
+      <img src="https://user-images.githubusercontent.com/24774694/116413172-01c05300-a855-11eb-8912-eae29df2a93d.jpg" alt="Favorite Statuses" width="175" height="300"/>
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/24774694/116413180-02f18000-a855-11eb-8d18-1afc77d3e736.jpg" alt="Images and videos viewer" width="150" height="300"/>
+      <img src="https://user-images.githubusercontent.com/24774694/116413180-02f18000-a855-11eb-8d18-1afc77d3e736.jpg" alt="Images and videos viewer" width="175" height="300"/>
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/24774694/116413168-008f2600-a855-11eb-9718-9616eede564a.jpg" alt="Share statuses" width="150" height="300"/>
+      <img src="https://user-images.githubusercontent.com/24774694/116413168-008f2600-a855-11eb-9718-9616eede564a.jpg" alt="Share statuses" width="175" height="300"/>
     </td>
   </tr>
 </table>
 
-# Download
+
+
 
 <a href="https://play.google.com/store/apps/details?id=dev.ultronx2.WAStatusSaver">
     <img alt="Get it on Google Play"
