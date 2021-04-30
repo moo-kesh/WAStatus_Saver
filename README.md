@@ -1,9 +1,7 @@
-<p align="left">
-  <img src="https://user-images.githubusercontent.com/24774694/116679777-913a4300-a9c8-11eb-803c-1cb80fd7d026.png" alt="App icon" height="100" width="100"/>
-<p/>
-<p align="right">
-  <h1>WAStatus Saver<h1/>
-<p/>
+<img src="https://user-images.githubusercontent.com/24774694/116679777-913a4300-a9c8-11eb-803c-1cb80fd7d026.png" alt="App icon" height="100" width="100"/>
+
+# WAStatus Saver
+
 A WhatsApp Status/Story saver app.
 
 ## Description:
