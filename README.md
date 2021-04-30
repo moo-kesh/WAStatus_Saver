@@ -1,12 +1,16 @@
-# WAStatus Saver
-
+<p align="left">
+  <img src="https://user-images.githubusercontent.com/24774694/116679777-913a4300-a9c8-11eb-803c-1cb80fd7d026.png" alt="App icon" height="100" width="100"/>
+<p/>
+<p align="right">
+  <h1>WAStatus Saver<h1/>
+<p/>
 A WhatsApp Status/Story saver app.
 
-## Description
+## Description:
 
 WAStatus Saver allows you to permanently save WhatsApp statuses/stories on your phone. So whenever you like your friends statuses then just open WAStatus Saver app and select that status and click on save button, your all saved statuses will be appeared in 'Saved' tab in app. You can also mark your status as Favorite so it will not lost in crowed. Favorite statuses can be accessed by clicking on favorites icon(Pink Heart icon) on top right corner in the app. Sharing your saved statuses with your loved friends is just one click away, just click on share button and select any app from share menu or you can repost it on your own status section in WhatsApp app.
 
-Features:
+#### Features:
 - Save WhatsApp statuses
 - Both images and videos are supported
 - Mark statuses as favorites
