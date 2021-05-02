@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -15,19 +17,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<HomeScreen> {
+  bool customSwitchStatus = false;
+  WhatsAppTypes whatsAppType;
+
   @override
   void initState() {
+    whatsAppType = WhatsAppTypes.WhatsApp;
     handlePermissions();
     super.initState();
   }
 
   void handlePermissions() async {
     if (await Permission.storage.isGranted) {
-      Provider.of<FilesManager>(context, listen: false).fetchAllStatuses();
+      Provider.of<FilesManager>(context, listen: false)
+          .fetchAllStatuses(WhatsAppTypes.WhatsApp);
     } else {
       Permission.storage.request().then((value) {
         if (value.isGranted) {
-          Provider.of<FilesManager>(context, listen: false).fetchAllStatuses();
+          Provider.of<FilesManager>(context, listen: false)
+              .fetchAllStatuses(WhatsAppTypes.WhatsApp);
         } else {
           showDialog(
               context: context,
@@ -43,12 +51,9 @@ class _MainScreenState extends State<HomeScreen> {
     return MaterialApp(
         theme: Themes.lightTheme.copyWith(
             tabBarTheme: TabBarTheme(
-                labelColor: Colors.green,
+                labelColor: Colors.white,
                 unselectedLabelColor: Colors.greenAccent.withOpacity(0.5),
                 indicatorSize: TabBarIndicatorSize.label,
-                labelStyle: TextStyle(color: Colors.white),
-                unselectedLabelStyle:
-                    TextStyle(color: Colors.greenAccent.withOpacity(0.5)),
                 indicator: BoxDecoration(
                     color: Colors.greenAccent,
                     borderRadius: BorderRadius.circular(50)))),
@@ -81,13 +86,52 @@ class _MainScreenState extends State<HomeScreen> {
                     ],
                   ),
                   actions: [
+                    Container(
+                        padding: EdgeInsets.only(right: 4),
+                        child: FlutterSwitch(
+                            height: 27,
+                            width: 50,
+                            padding: 2.5,
+                            duration: Duration(milliseconds: 200),
+                            inactiveIcon: Image.asset(
+                              'assets/WA_icon1.png',
+                              color: Colors.green,
+                            ),
+                            activeIcon: Image.asset(
+                              'assets/WAB_icon1.png',
+                              color: Colors.greenAccent,
+                            ),
+                            activeColor: Colors.greenAccent,
+                            inactiveColor: Colors.green,
+                            value: whatsAppType == WhatsAppTypes.WhatsApp
+                                ? false // assume WhatsAppType.whatsapp as 'false'
+                                : true,
+                            // and WhatsAppType.whatsappBusiness as 'true'
+                            onToggle: (value) {
+                              setState(() {
+                                whatsAppType = value == false
+                                    ? WhatsAppTypes.WhatsApp
+                                    : WhatsAppTypes.WhatsAppBusiness;
+
+                                Provider.of<FilesManager>(context,
+                                        listen: false)
+                                    .fetchLiveStatuses(whatsAppType);
+
+                                Fluttertoast.showToast(
+                                    msg: 'Switched to ' +
+                                        (whatsAppType == WhatsAppTypes.WhatsApp
+                                            ? 'WhatsApp'
+                                            : 'WhatsApp Business'),
+                                    gravity: ToastGravity.CENTER);
+                              });
+                            })),
                     GestureDetector(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Icon(
                           Icons.favorite_rounded,
                           color: Colors.pinkAccent,
-                          size: 30,
+                          size: 35,
                         ),
                       ),
                       onTap: () {
@@ -97,25 +141,6 @@ class _MainScreenState extends State<HomeScreen> {
                                 builder: (context) => FavoriteStatuses()));
                       },
                     ),
-                    /*GestureDetector(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.help_rounded,
-                        size: 30,
-                        color: Colors.greenAccent,
-                      ),
-                    ),
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return Container(
-                              child: Dialog(child: CustomDialogBox()),
-                            );
-                          });
-                    },
-                  )*/
                   ],
                   bottom: TabBar(
                       indicatorWeight: 0,
@@ -127,18 +152,11 @@ class _MainScreenState extends State<HomeScreen> {
                         tabBarItem(Icons.save_alt_rounded, 'Saved')
                       ]),
                 ),
-                body:
-                    Provider.of<FilesManager>(context).savedStatusesList != null
-                        ? Padding(
-                            padding: const EdgeInsets.only(top: 5),
-                            child: TabBarView(children: [
-                              LiveStatusScreen(),
-                              SavedStatusScreen()
-                            ]),
-                          )
-                        : Container(
-                            color: Colors.white,
-                          ))));
+                body: Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: TabBarView(
+                      children: [LiveStatusScreen(), SavedStatusScreen()]),
+                ))));
   }
 }
 
@@ -146,7 +164,7 @@ Widget tabBarItem(IconData icon, String title) {
   return Container(
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50),
-        border: Border.all(color: Colors.greenAccent, width: 0.7)),
+        border: Border.all(color: Colors.greenAccent, width: 0)),
     child: Tab(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
