@@ -43,7 +43,7 @@ class CustomConfirmDialogBox extends StatelessWidget {
                     Permission.storage.request().then((value) {
                       if (value.isGranted) {
                         Provider.of<FilesManager>(context, listen: false)
-                            .fetchAllStatuses();
+                            .fetchAllStatuses(WhatsAppTypes.WhatsApp);
                         Navigator.of(context).pop();
                       }
                     });

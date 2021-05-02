@@ -132,11 +132,20 @@ class _LiveStatusScreenState extends State<LiveStatusScreen>
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Consumer<FilesManager>(
+            // ignore: missing_return
             builder: (context, fileManager, child) {
               if (fileManager.liveStatusesMap.isEmpty) {
-                return Center(
-                  child: JumpingDotsProgressIndicator(),
-                );
+                if (Provider.of<FilesManager>(context).isWhatsAppInstalled() ||
+                    Provider.of<FilesManager>(context)
+                        .isWhatsAppBusinessInstalled()) {
+                  return Center(
+                    child: JumpingDotsProgressIndicator(),
+                  );
+                } else
+                  return Center(
+                    child: Text(
+                        'Either WhatsApp or WhatsApp Business is not installed on this device'),
+                  );
               } else if (fileManager.liveStatusesMap[category].isEmpty) {
                 return NoStatusesWidget();
               } else

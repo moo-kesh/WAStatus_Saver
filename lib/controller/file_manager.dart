@@ -11,9 +11,12 @@ import 'package:whatsapp_status/models/status_model.dart';
 import 'package:whatsapp_status/utils/shared_pref_util.dart';
 
 enum CategoryTypes { all, imgOnly, vidOnly }
+enum WhatsAppTypes { WhatsApp, WhatsAppBusiness }
 
 const String whatsAppStatusesPath =
     '/storage/emulated/0/WhatsApp/Media/.Statuses/';
+const String whatsAppBusinessStatusesPath =
+    '/storage/emulated/0/WhatsApp Business/Media/.Statuses/';
 const String savedStatusesPath = '/storage/emulated/0/WAStatus Saver/';
 
 class FilesManager extends ChangeNotifier {
@@ -34,14 +37,22 @@ class FilesManager extends ChangeNotifier {
     return savedStatusesList;
   }
 
-  void fetchAllStatuses() async {
+  bool isWhatsAppInstalled() {
+    return Directory(whatsAppStatusesPath).existsSync();
+  }
+
+  bool isWhatsAppBusinessInstalled() {
+    return Directory(whatsAppBusinessStatusesPath).existsSync();
+  }
+
+  void fetchAllStatuses(WhatsAppTypes type) async {
     if (await Permission.storage.isGranted) {
-      fetchLiveStatuses();
+      fetchLiveStatuses(type);
       fetchSavedStatuses();
     } else {
       Permission.storage.request().then((value) async {
         if (value.isGranted) {
-          fetchLiveStatuses();
+          fetchLiveStatuses(type);
           fetchSavedStatuses();
         }
       });
@@ -57,23 +68,31 @@ class FilesManager extends ChangeNotifier {
     }
   }
 
-  void fetchLiveStatuses() async {
-    // liveStatusesList.clear();
-    await for (FileSystemEntity item
-        in (Directory(whatsAppStatusesPath).list())) {
-      if (!item.path.contains('.nomedia')) {
-        //skip .nomedia files
-        liveStatusesList.add(StatusModel.liveStatuses(
-            item.path,
-            basename(item.path),
-            getFileSize(File(item.path)),
-            await getThumbnail(File(item.path)),
-            getFileType(File(item.path)),
-            isSaved(item.path)));
+  void fetchLiveStatuses(WhatsAppTypes whatsAppTypes) async {
+    liveStatusesList.clear();
+    if (Directory(whatsAppTypes == WhatsAppTypes.WhatsApp
+            ? whatsAppStatusesPath
+            : whatsAppBusinessStatusesPath)
+        .existsSync()) {
+      await for (FileSystemEntity item in (Directory(
+              whatsAppTypes == WhatsAppTypes.WhatsApp
+                  ? whatsAppStatusesPath
+                  : whatsAppBusinessStatusesPath)
+          .list())) {
+        if (!item.path.contains('.nomedia')) {
+          //skip .nomedia files
+          liveStatusesList.add(StatusModel.liveStatuses(
+              item.path,
+              basename(item.path),
+              getFileSize(File(item.path)),
+              await getThumbnail(File(item.path)),
+              getFileType(File(item.path)),
+              isSaved(item.path)));
+        }
       }
+      categorizeAllStatuses();
+      notifyListeners();
     }
-    categorizeAllStatuses();
-    notifyListeners();
   }
 
   void fetchSavedStatuses() async {
