@@ -29,6 +29,8 @@ class FilesManager extends ChangeNotifier {
   HashMap<CategoryTypes, List<StatusModel>> savedStatusesMap =
       HashMap<CategoryTypes, List<StatusModel>>();
 
+  static WhatsAppTypes defaultWhatsapp = WhatsAppTypes.WhatsApp;
+
   List<StatusModel> get getLiveStatusesList {
     return liveStatusesList;
   }

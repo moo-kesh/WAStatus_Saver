@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:whatsapp_status/controller/file_manager.dart';
 import 'package:whatsapp_status/utils/utils.dart';
 import 'package:whatsapp_status/widgets/custom_floating_button.dart';
@@ -23,6 +24,17 @@ class _LiveStatusScreenState extends State<LiveStatusScreen>
   CategoryTypes category;
 
   AnimationController _hideFabAnimation;
+
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    Provider.of<FilesManager>(context, listen: false)
+        .fetchLiveStatuses(FilesManager.defaultWhatsapp);
+    await Future.delayed(Duration(milliseconds: 1000));
+    _refreshController.refreshCompleted();
+  }
+
   @override
   initState() {
     super.initState();
@@ -152,29 +164,44 @@ class _LiveStatusScreenState extends State<LiveStatusScreen>
                 return Expanded(
                   child: NotificationListener<ScrollNotification>(
                     onNotification: _handleScrollNotification,
-                    child: GridView.builder(
-                        primary: false,
-                        padding: EdgeInsets.all(10),
-                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 200,
-                            childAspectRatio: 1.3 / 1.45,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8),
-                        scrollDirection: Axis.vertical,
-                        itemCount: fileManager.liveStatusesMap[category].length,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          if (fileManager.liveStatusesMap[category].isEmpty) {
-                            return NoStatusesWidget();
-                          } else
-                            return CustomGridViewTile(
-                              data: fileManager.liveStatusesMap[category]
-                                  [index],
-                              context: context,
-                              isShowFavoriteButton: false,
-                              statusType: StatusTypes.live,
-                            );
-                        }),
+                    child: SmartRefresher(
+                      controller: _refreshController,
+                      scrollDirection: Axis.vertical,
+                      onRefresh: _onRefresh,
+                      enablePullDown: true,
+                      header: WaterDropMaterialHeader(
+                        color: Colors.white,
+                        backgroundColor: Colors.greenAccent.withOpacity(0.9),
+                        distance: 40,
+                      ),
+                      /*semanticChildCount:
+                          fileManager.liveStatusesMap[category].length,*/
+                      child: GridView.builder(
+                          primary: false,
+                          padding: EdgeInsets.all(10),
+                          gridDelegate:
+                              SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 200,
+                                  childAspectRatio: 1.3 / 1.45,
+                                  crossAxisSpacing: 8,
+                                  mainAxisSpacing: 8),
+                          scrollDirection: Axis.vertical,
+                          itemCount:
+                              fileManager.liveStatusesMap[category].length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            if (fileManager.liveStatusesMap[category].isEmpty) {
+                              return NoStatusesWidget();
+                            } else
+                              return CustomGridViewTile(
+                                data: fileManager.liveStatusesMap[category]
+                                    [index],
+                                context: context,
+                                isShowFavoriteButton: false,
+                                statusType: StatusTypes.live,
+                              );
+                          }),
+                    ),
                   ),
                 );
             },
