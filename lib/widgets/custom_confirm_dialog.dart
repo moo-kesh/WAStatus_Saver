@@ -37,7 +37,6 @@ class CustomConfirmDialogBox extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              Divider(),
               TextButton(
                   onPressed: () {
                     Permission.storage.request().then((value) {

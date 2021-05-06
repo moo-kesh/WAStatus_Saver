@@ -87,7 +87,6 @@ class _VideoAppState extends State<MediaPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.data.isFileSaved);
     return MaterialApp(
       theme: Themes.lightTheme,
       debugShowCheckedModeBanner: false,

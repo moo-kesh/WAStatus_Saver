@@ -17,12 +17,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<HomeScreen> {
-  bool customSwitchStatus = false;
-  WhatsAppTypes whatsAppType;
-
   @override
   void initState() {
-    whatsAppType = WhatsAppTypes.WhatsApp;
     handlePermissions();
     super.initState();
   }
@@ -30,12 +26,12 @@ class _MainScreenState extends State<HomeScreen> {
   void handlePermissions() async {
     if (await Permission.storage.isGranted) {
       Provider.of<FilesManager>(context, listen: false)
-          .fetchAllStatuses(WhatsAppTypes.WhatsApp);
+          .fetchAllStatuses(FilesManager.defaultWhatsapp);
     } else {
       Permission.storage.request().then((value) {
         if (value.isGranted) {
           Provider.of<FilesManager>(context, listen: false)
-              .fetchAllStatuses(WhatsAppTypes.WhatsApp);
+              .fetchAllStatuses(FilesManager.defaultWhatsapp);
         } else {
           showDialog(
               context: context,
@@ -103,23 +99,26 @@ class _MainScreenState extends State<HomeScreen> {
                             ),
                             activeColor: Colors.greenAccent,
                             inactiveColor: Colors.green,
-                            value: whatsAppType == WhatsAppTypes.WhatsApp
+                            value: FilesManager.defaultWhatsapp ==
+                                    WhatsAppTypes.WhatsApp
                                 ? false // assume WhatsAppType.whatsapp as 'false'
                                 : true,
                             // and WhatsAppType.whatsappBusiness as 'true'
                             onToggle: (value) {
                               setState(() {
-                                whatsAppType = value == false
+                                FilesManager.defaultWhatsapp = value == false
                                     ? WhatsAppTypes.WhatsApp
                                     : WhatsAppTypes.WhatsAppBusiness;
 
                                 Provider.of<FilesManager>(context,
                                         listen: false)
-                                    .fetchLiveStatuses(whatsAppType);
+                                    .fetchLiveStatuses(
+                                        FilesManager.defaultWhatsapp);
 
                                 Fluttertoast.showToast(
                                     msg: 'Switched to ' +
-                                        (whatsAppType == WhatsAppTypes.WhatsApp
+                                        (FilesManager.defaultWhatsapp ==
+                                                WhatsAppTypes.WhatsApp
                                             ? 'WhatsApp'
                                             : 'WhatsApp Business'),
                                     gravity: ToastGravity.CENTER);
