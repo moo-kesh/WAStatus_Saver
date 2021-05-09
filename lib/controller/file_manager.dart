@@ -130,9 +130,13 @@ class FilesManager extends ChangeNotifier {
       if (!Directory(savedStatusesPath).existsSync()) {
         Directory(savedStatusesPath).create();
       }
-      File(whatsAppStatusesPath + basename(data.path))
-          .copy(savedStatusesPath + basename(data.path))
-          .then((value) async {
+      File file;
+      if (defaultWhatsapp == WhatsAppTypes.WhatsApp)
+        file = File(whatsAppStatusesPath + basename(data.path));
+      else
+        file = File(whatsAppBusinessStatusesPath + basename(data.path));
+
+      file.copy(savedStatusesPath + basename(data.path)).then((value) async {
         savedStatusesList.add(StatusModel.savedStatuses(
             value.path,
             basename(value.path),
