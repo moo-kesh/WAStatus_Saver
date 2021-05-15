@@ -98,6 +98,7 @@ class _VideoAppState extends State<MediaPlayer> {
                   onPressed: () {
                     Provider.of<FilesManager>(context, listen: false)
                         .deleteStatus(widget.data);
+                    setState(() {});
                   },
                   child: Icon(Icons.delete_forever_rounded),
                 )
@@ -105,6 +106,7 @@ class _VideoAppState extends State<MediaPlayer> {
                   onPressed: () {
                     Provider.of<FilesManager>(context, listen: false)
                         .saveStatus(widget.data);
+                    setState(() {});
                   },
                   child: Icon(Icons.download_rounded),
                 ),
