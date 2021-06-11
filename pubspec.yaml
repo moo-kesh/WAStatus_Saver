@@ -30,6 +30,7 @@ dependencies:
   video_compress: ^3.0.0
   flutter_switch: ^0.3.1
   pull_to_refresh: ^1.6.5
+  device_info: ^2.0.2
 
 dev_dependencies:
   flutter_test:
