@@ -1,3 +1,4 @@
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -24,21 +25,39 @@ class _MainScreenState extends State<HomeScreen> {
   }
 
   void handlePermissions() async {
-    if (await Permission.storage.isGranted) {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+
+    if (await Permission.storage.isGranted ||
+        await Permission.manageExternalStorage.isGranted) {
       Provider.of<FilesManager>(context, listen: false)
           .fetchAllStatuses(FilesManager.defaultWhatsapp);
     } else {
-      Permission.storage.request().then((value) {
-        if (value.isGranted) {
-          Provider.of<FilesManager>(context, listen: false)
-              .fetchAllStatuses(FilesManager.defaultWhatsapp);
-        } else {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) => CustomConfirmDialogBox());
-          CustomConfirmDialogBox();
-        }
-      });
+      if (androidInfo.version.sdkInt >= 30) {
+        Permission.manageExternalStorage.request().then((value) {
+          if (value.isGranted) {
+            Provider.of<FilesManager>(context, listen: false)
+                .fetchAllStatuses(FilesManager.defaultWhatsapp);
+          } else {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) => CustomConfirmDialogBox());
+            CustomConfirmDialogBox();
+          }
+        });
+      } else {
+        Permission.storage.request().then((value) {
+          if (value.isGranted) {
+            Provider.of<FilesManager>(context, listen: false)
+                .fetchAllStatuses(FilesManager.defaultWhatsapp);
+          } else {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) => CustomConfirmDialogBox());
+            CustomConfirmDialogBox();
+          }
+        });
+      }
     }
   }
 
@@ -100,7 +119,7 @@ class _MainScreenState extends State<HomeScreen> {
                             activeColor: Colors.greenAccent,
                             inactiveColor: Colors.green,
                             value: FilesManager.defaultWhatsapp ==
-                                    WhatsAppTypes.WhatsApp
+                                WhatsAppTypes.WhatsApp
                                 ? false // assume WhatsAppType.whatsapp as 'false'
                                 : true,
                             // and WhatsAppType.whatsappBusiness as 'true'
@@ -111,14 +130,14 @@ class _MainScreenState extends State<HomeScreen> {
                                     : WhatsAppTypes.WhatsAppBusiness;
 
                                 Provider.of<FilesManager>(context,
-                                        listen: false)
+                                    listen: false)
                                     .fetchLiveStatuses(
-                                        FilesManager.defaultWhatsapp);
+                                    FilesManager.defaultWhatsapp);
 
                                 Fluttertoast.showToast(
                                     msg: 'Switched to ' +
                                         (FilesManager.defaultWhatsapp ==
-                                                WhatsAppTypes.WhatsApp
+                                            WhatsAppTypes.WhatsApp
                                             ? 'WhatsApp'
                                             : 'WhatsApp Business'),
                                     gravity: ToastGravity.CENTER);
